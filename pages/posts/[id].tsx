@@ -16,7 +16,7 @@ export default function Post({ postData }: { postData: PostData }) {
       <h1 className='font-extrabold text-4xl pt-5 pb-7'>{postData.title}</h1>
       <div className='flex gap-6'>
         <p className='text-slate-400'>
-          投稿日: <Date dateString={postData.publishedAt} />
+          <Date dateString={postData.publishedAt} />
         </p>
         <p className='text-slate-400'>
           更新日: <Date dateString={postData.updatedAt} />
