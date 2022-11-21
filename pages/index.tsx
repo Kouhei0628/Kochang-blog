@@ -26,24 +26,30 @@ export default function Home({ postsData }: { postsData: PostData[] }) {
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
-      <main>
-        <h1>Kochang Exploration</h1>
-        <h3>
+      <main className='p-10'>
+        <h1 className='font-extrabold text-5xl pt-5 pb-7'>
+          Kochang Exploration
+        </h1>
+        <h3 className='mt-7 mb-7'>
           人生で新たに経験したことや、些細なものから壮大な思い出までとりあえず残しておくための個人ブログです。
         </h3>
         <p>
           サイトデザインもコンテンツも、おいおいアップデートしていきますので暖かく見守っていてくださいませ。
         </p>
 
-        <div>
-          <h2>Blogs</h2>
+        <div className='mt-9'>
+          <h2 className='font-bold text-3xl mb-8'>Blogs</h2>
           {postsData.map(({ id, title, publishedAt }) => (
-            <div>
-              <Link href={`/posts/${id}`}>{title}</Link>
-              <p>
-                投稿日：
-                <Date dateString={publishedAt} />
-              </p>
+            <div key={id}>
+              <Link
+                className='bg-slate-100 block p-7 mt-3 mb-4 rounded-lg hover:bg-slate-100/50 hover:shadow-slate-300 hover:shadow-lg duration-100'
+                href={`/posts/${id}`}>
+                <p className='font-semibold mb-4'>{title}</p>
+                <p>
+                  投稿日：
+                  <Date dateString={publishedAt} />
+                </p>
+              </Link>
             </div>
           ))}
         </div>
