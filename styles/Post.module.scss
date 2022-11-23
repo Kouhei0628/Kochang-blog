@@ -6,3 +6,12 @@
         margin-bottom: 39px;
     }
 }
+
+.back {
+    color: #32ccff;
+    transition: all 0.3s;
+    &:hover {
+        cursor: pointer;
+        border-bottom: #32ccff 2px solid;
+    }
+}
