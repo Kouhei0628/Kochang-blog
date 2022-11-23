@@ -1,20 +1,33 @@
+import { MicroCMSImage } from "microcms-js-sdk";
+import Image from "next/image";
 import Link from "next/link";
 import Date from "../../components/Date";
 import { client } from "../../libs/client";
 import styles from "../../styles/Post.module.scss";
 
 type PostData = {
-  title: string;
+  blog: {
+    title: string;
+    mainvisual: MicroCMSImage;
+    body: string;
+  };
   publishedAt: string;
   updatedAt: string;
-  body: string;
 };
 
 export default function Post({ postData }: { postData: PostData }) {
+  const { title, mainvisual, body } = postData.blog;
   return (
     <main className='p-10'>
-      <h1 className='font-extrabold text-4xl pt-5 pb-7'>{postData.title}</h1>
-      <div className='flex gap-6'>
+      <Image
+        src={`${mainvisual.url}`}
+        alt={`${title}のメインビジュアル`}
+        width={mainvisual.width}
+        height={mainvisual.height}
+        priority
+      />
+      <h1 className='font-extrabold text-4xl pt-5 pb-7'>{title}</h1>
+      <div className={styles.date}>
         <p className='text-slate-400'>
           投稿日: <Date dateString={postData.publishedAt} />
         </p>
@@ -25,8 +38,12 @@ export default function Post({ postData }: { postData: PostData }) {
 
       <div
         className={styles.body}
-        dangerouslySetInnerHTML={{ __html: `${postData.body}` }}></div>
-      {postData && <Link href={`/`}>ホームへ戻る</Link>}
+        dangerouslySetInnerHTML={{ __html: `${body}` }}></div>
+      {postData && (
+        <Link className={`mt-10 inline-block ${styles.back}`} href={`/`}>
+          ← ホームへ戻る
+        </Link>
+      )}
     </main>
   );
 }

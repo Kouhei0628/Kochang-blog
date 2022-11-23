@@ -1,8 +1,10 @@
+import { MicroCMSImage } from "microcms-js-sdk";
 import { GetStaticProps } from "next";
 import Head from "next/head";
 import Link from "next/link";
 import Date from "../components/Date";
 import { client } from "../libs/client";
+import styles from "../styles/Home.module.scss";
 
 type PostData = {
   id: string;
@@ -10,7 +12,7 @@ type PostData = {
   updatedAt: string;
   publishedAt: string;
   revisedAt: string;
-  title: string;
+  blog: { title: string; mainvisual: MicroCMSImage };
   body: string;
 };
 
@@ -38,20 +40,22 @@ export default function Home({ postsData }: { postsData: PostData[] }) {
         </p>
 
         <div className='mt-9'>
-          <h2 className='font-bold text-3xl mb-8'>Blogs</h2>
-          {postsData.map(({ id, title, publishedAt }) => (
-            <div key={id}>
-              <Link
-                className='bg-slate-100 block p-7 mt-3 mb-4 rounded-lg hover:bg-slate-100/50 hover:shadow-slate-300 hover:shadow-lg duration-100'
-                href={`/posts/${id}`}>
-                <p className='font-semibold mb-4'>{title}</p>
-                <p>
-                  投稿日：
-                  <Date dateString={publishedAt} />
-                </p>
-              </Link>
-            </div>
-          ))}
+          <h2 className='font-bold text-2xl mb-8'>Recent Blog Posts</h2>
+          <ul>
+            {postsData.map(({ id, blog, publishedAt }) => (
+              <li className={styles.blogslist} key={id}>
+                <Link
+                  className={`bg-slate-100 block p-4 mt-3 mb-4 rounded-lg hover:bg-slate-100/50 hover:shadow-slate-300 hover:shadow-lg duration-100 ${styles.listItem}`}
+                  href={`/posts/${id}`}>
+                  <p className='font-semibold mb-4'>{blog.title}</p>
+                  <p>
+                    投稿日：
+                    <Date dateString={publishedAt} />
+                  </p>
+                </Link>
+              </li>
+            ))}
+          </ul>
         </div>
       </main>
 
