@@ -1,22 +1,19 @@
-import { MicroCMSImage } from "microcms-js-sdk";
 import { GetStaticProps } from "next";
 import Head from "next/head";
+import Image from "next/image";
 import Link from "next/link";
 import Date from "../components/Date";
 import { client } from "../libs/client";
 import styles from "../styles/Home.module.scss";
+import { BlogPostData, PhotoPostData } from "../types/postTypes";
 
-type PostData = {
-  id: string;
-  createdAt: string;
-  updatedAt: string;
-  publishedAt: string;
-  revisedAt: string;
-  blog: { title: string; mainvisual: MicroCMSImage };
-  body: string;
-};
-
-export default function Home({ postsData }: { postsData: PostData[] }) {
+export default function Home({
+  blogPostsData,
+  photoPostsData,
+}: {
+  blogPostsData: BlogPostData[];
+  photoPostsData: PhotoPostData[];
+}) {
   return (
     <div>
       <Head>
@@ -40,21 +37,45 @@ export default function Home({ postsData }: { postsData: PostData[] }) {
         </p>
 
         <div className='mt-9'>
-          <h2 className='font-bold text-2xl mb-8'>Recent Blog Posts</h2>
+          <h2 className='font-bold text-2xl mb-8'>Recent Posts</h2>
           <ul>
-            {postsData.map(({ id, blog, publishedAt }) => (
+            {blogPostsData.map(({ id, blog, updatedAt }) => (
               <li className={styles.blogslist} key={id}>
                 <Link
                   className={`bg-slate-100 block p-4 mt-3 mb-4 rounded-lg hover:bg-slate-100/50 hover:shadow-slate-300 hover:shadow-lg duration-100 ${styles.listItem}`}
-                  href={`/posts/${id}`}>
-                  <p className='font-semibold mb-4'>{blog.title}</p>
+                  href={`/blogs/${id}`}>
+                  <h4 className='text-lg font-semibold mb-4'>{blog.title}</h4>
                   <p>
-                    投稿日：
-                    <Date dateString={publishedAt} />
+                    最終更新：
+                    <Date dateString={updatedAt} />
                   </p>
+                  <p>カテゴリ：{blog.category}</p>
                 </Link>
               </li>
             ))}
+          </ul>
+        </div>
+        <div className='navigation mt-8 mb-8'>
+          <Link href={`/photos`}>See All Photos</Link>
+          <ul className='flex gap-2'>
+            {photoPostsData[0].categories.map(({ name }) => (
+              <li key={name}>
+                <Link href={`/photos/${name}`}>{name}</Link>
+              </li>
+            ))}
+          </ul>
+          <ul className='flex gap-5 mt-12'>
+            {photoPostsData[0].imagesDisplay.map(
+              ({ title, itemId, image, category }) => (
+                <li className='' key={title}>
+                  <Link
+                    className='relative inline-block w-36 h-36'
+                    href={`/photos/${category}/${itemId}`}>
+                    <Image src={image.url} alt={`${title} の画像`} fill />
+                  </Link>
+                </li>
+              )
+            )}
           </ul>
         </div>
       </main>
@@ -64,11 +85,14 @@ export default function Home({ postsData }: { postsData: PostData[] }) {
   );
 }
 export const getStaticProps: GetStaticProps = async () => {
-  const data = await client.get({ endpoint: "blogs" });
-  const postsData = data.contents;
+  const blog = await client.get({ endpoint: "blog" });
+  const blogPostsData = blog.contents;
+  const photo = await client.get({ endpoint: "photos" });
+  const photoPostsData = photo.contents;
   return {
     props: {
-      postsData,
+      blogPostsData,
+      photoPostsData,
     },
   };
 };
