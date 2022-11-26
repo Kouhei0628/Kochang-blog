@@ -46,7 +46,7 @@ export default function Photos({
         </ul>
       ) : (
         <div className=' h-72 flex justify-center items-center text-center'>
-          <h1 className='font-extrabold text-xl'>Sorry, No Posts Found</h1>
+          <h4 className='font-bold'>まだ投稿がありません</h4>
         </div>
       )}
       <BackTo to={`/photos`} text={`フォトライブラリ`} />

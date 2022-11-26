@@ -20,6 +20,7 @@ export type PhotoPostData = MCDefault & {
         itemId: string;
         category: string | string[];
         image: MicroCMSImage;
+        upload: string;
       }[];
   imageUi: { title: string; image: MicroCMSImage };
   categories: { fieldId: string; name: string }[];
