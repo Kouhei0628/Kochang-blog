@@ -3,25 +3,27 @@ import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import BackHome from "../../components/BackTo";
 import { client } from "../../libs/client";
+import styles from "../../styles/Photos.module.scss";
 import { PhotoPostData } from "../../types/postTypes";
 
 export default function Photos({ postsData }: { postsData: PhotoPostData[] }) {
   const { imagesDisplay, categories } = postsData[0];
   const router = useRouter();
   return (
-    <main className='p-7'>
+    <main className=''>
       <Head>
         <title>Photo Library</title>
       </Head>
       <div>{router.query.id}</div>
       <h1 className='text-5xl font-extrabold'>フォトライブラリ</h1>
       <h3 className='mt-12 text-xl font-light'>カテゴリ別に見る</h3>
-      <ul className='flex mt-8 gap-3'>
+      <ul className='flex mt-8 gap-5 flex-wrap justify-start'>
         {categories.map(({ name }) => (
           <li key={name}>
             <Link
-              className='inline-block p-4 shadow-md rounded-lg duration-150'
+              className={`inline-block p-4 shadow-md shadow-slate-400 hover:shadow-slate-100 hover:shadow-lg rounded-lg duration-150 ${styles.category}`}
               href={{
                 pathname: "photos/[category]",
                 query: { category: name.toLowerCase() },
@@ -32,9 +34,9 @@ export default function Photos({ postsData }: { postsData: PhotoPostData[] }) {
         ))}
       </ul>
       <h3 className='mt-12 text-xl font-light'>全ての写真</h3>
-      <ul className='mt-10 flex gap-6'>
+      <ul className='mt-10 flex gap-4 flex-wrap justify-start'>
         {imagesDisplay.map(({ title, image, itemId, category }) => (
-          <li className='w-40 h-40 relative' key={itemId}>
+          <li className={`relative ${styles.imglistitem}`} key={itemId}>
             <Link
               className='inline-block'
               href={{
@@ -42,7 +44,7 @@ export default function Photos({ postsData }: { postsData: PhotoPostData[] }) {
                 query: { category, itemId },
               }}>
               <Image
-                className=' rounded-md'
+                className='object-cover rounded-md hover:opacity-80 duration-300'
                 src={image.url}
                 alt={`${title} の画像`}
                 fill
@@ -51,6 +53,7 @@ export default function Photos({ postsData }: { postsData: PhotoPostData[] }) {
           </li>
         ))}
       </ul>
+      <BackHome to={`/`} text={"ホーム"} />
     </main>
   );
 }

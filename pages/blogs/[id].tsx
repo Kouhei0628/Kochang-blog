@@ -1,7 +1,7 @@
 import { MicroCMSImage } from "microcms-js-sdk";
 import Head from "next/head";
 import Image from "next/image";
-import Link from "next/link";
+import BackTo from "../../components/BackTo";
 import Date from "../../components/Date";
 import { client } from "../../libs/client";
 import styles from "../../styles/Post.module.scss";
@@ -20,7 +20,7 @@ type PostData = {
 export default function Post({ postData }: { postData: PostData }) {
   const { title, mainvisual, category, body } = postData.blog;
   return (
-    <main className='p-10'>
+    <main className=''>
       <Head>
         <title>{title}</title>
       </Head>
@@ -46,11 +46,7 @@ export default function Post({ postData }: { postData: PostData }) {
       <div
         className={styles.body}
         dangerouslySetInnerHTML={{ __html: `${body}` }}></div>
-      {postData && (
-        <Link className={`mt-10 inline-block ${styles.back}`} href={`/`}>
-          ← ホームへ戻る
-        </Link>
-      )}
+      {postData && <BackTo to={`/blogs`} text={`ブログ一覧`} />}
     </main>
   );
 }

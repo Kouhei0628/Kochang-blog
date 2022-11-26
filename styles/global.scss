@@ -1,11 +1,15 @@
 :root {
-    --bodyBg: #fbf7e0;
+    --bodyBg: #193471;
+    --fontC: rgb(255, 255, 255);
+    --mediaM: 600px;
+    --mediaL: 1280px;
 }
 
 html,
 body {
     background-color: var(--bodyBg);
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: Helvetica, sans-serif;
+    color: var(--fontC);
 }
 
 * {

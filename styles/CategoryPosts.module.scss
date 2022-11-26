@@ -1,0 +1,8 @@
+.imgListItem {
+    width: 40vw;
+    height: 40vw;
+    @media (min-width: var(--mediaM)) {
+        width: 20vw;
+        height: 20vw;
+    }
+}

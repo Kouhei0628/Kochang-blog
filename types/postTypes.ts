@@ -14,12 +14,13 @@ export type BlogPostData = MCDefault & {
 };
 
 export type PhotoPostData = MCDefault & {
-  imagesDisplay: {
-    title: string;
-    itemId: string;
-    category: string | string[];
-    image: MicroCMSImage;
-  }[];
+  imagesDisplay:
+    | {
+        title: string;
+        itemId: string;
+        category: string | string[];
+        image: MicroCMSImage;
+      }[];
   imageUi: { title: string; image: MicroCMSImage };
   categories: { fieldId: string; name: string }[];
 };
