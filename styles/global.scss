@@ -1,0 +1,17 @@
+:root {
+    --bodyBg: #193471;
+    --fontC: rgb(255, 255, 255);
+    --mediaM: 600px;
+    --mediaL: 1280px;
+}
+
+html,
+body {
+    background-color: var(--bodyBg);
+    font-family: Helvetica, sans-serif;
+    color: var(--fontC);
+}
+
+* {
+    box-sizing: border-box;
+}

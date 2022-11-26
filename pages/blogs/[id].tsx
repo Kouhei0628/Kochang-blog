@@ -1,6 +1,7 @@
 import { MicroCMSImage } from "microcms-js-sdk";
+import Head from "next/head";
 import Image from "next/image";
-import Link from "next/link";
+import BackTo from "../../components/BackTo";
 import Date from "../../components/Date";
 import { client } from "../../libs/client";
 import styles from "../../styles/Post.module.scss";
@@ -9,6 +10,7 @@ type PostData = {
   blog: {
     title: string;
     mainvisual: MicroCMSImage;
+    category: string;
     body: string;
   };
   publishedAt: string;
@@ -16,9 +18,12 @@ type PostData = {
 };
 
 export default function Post({ postData }: { postData: PostData }) {
-  const { title, mainvisual, body } = postData.blog;
+  const { title, mainvisual, category, body } = postData.blog;
   return (
-    <main className='p-10'>
+    <main className=''>
+      <Head>
+        <title>{title}</title>
+      </Head>
       <Image
         src={`${mainvisual.url}`}
         alt={`${title}のメインビジュアル`}
@@ -34,24 +39,22 @@ export default function Post({ postData }: { postData: PostData }) {
         <p className='text-slate-400'>
           更新日: <Date dateString={postData.updatedAt} />
         </p>
+        <br />
+        <p>カテゴリ：{category}</p>
       </div>
 
       <div
         className={styles.body}
         dangerouslySetInnerHTML={{ __html: `${body}` }}></div>
-      {postData && (
-        <Link className={`mt-10 inline-block ${styles.back}`} href={`/`}>
-          ← ホームへ戻る
-        </Link>
-      )}
+      {postData && <BackTo to={`/blogs`} text={`ブログ一覧`} />}
     </main>
   );
 }
 export const getStaticPaths = async () => {
-  const data = await client.get({ endpoint: "blogs" });
+  const data = await client.get({ endpoint: "blog" });
 
   const paths = data.contents.map(
-    (content: { id: string }) => `/posts/${content.id}`
+    (content: { id: string }) => `/blogs/${content.id}`
   );
   return { paths, fallback: false };
 };
@@ -62,7 +65,7 @@ export const getStaticProps = async ({
   params: { id: string };
 }) => {
   const id = params.id;
-  const data = await client.get({ endpoint: "blogs", contentId: id });
+  const data = await client.get({ endpoint: "blog", contentId: id });
 
   return {
     props: {

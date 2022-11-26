@@ -1,26 +1,24 @@
-import { MicroCMSImage } from "microcms-js-sdk";
 import { GetStaticProps } from "next";
 import Head from "next/head";
+import Image from "next/image";
 import Link from "next/link";
 import Date from "../components/Date";
 import { client } from "../libs/client";
 import styles from "../styles/Home.module.scss";
+import { BlogPostData, PhotoPostData } from "../types/postTypes";
 
-type PostData = {
-  id: string;
-  createdAt: string;
-  updatedAt: string;
-  publishedAt: string;
-  revisedAt: string;
-  blog: { title: string; mainvisual: MicroCMSImage };
-  body: string;
-};
-
-export default function Home({ postsData }: { postsData: PostData[] }) {
+export default function Home({
+  blogPostsData,
+  photoPostsData,
+}: {
+  blogPostsData: BlogPostData[];
+  photoPostsData: PhotoPostData[];
+}) {
   return (
     <div>
       <Head>
         <title>Kochang Exploration</title>
+        <meta name='viewport' content='initial-scale=1.0, width=device-width' />
         <meta
           name='description'
           content='This is where I write about my day to day experiences.'
@@ -28,33 +26,63 @@ export default function Home({ postsData }: { postsData: PostData[] }) {
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
-      <main className='p-10'>
-        <h1 className='font-extrabold text-5xl pt-5 pb-7'>
+      <main className=''>
+        <h1 className={`text-center pt-5 pb-7 ${styles.mainTitle}`}>
           Kochang Exploration
         </h1>
-        <h3 className='mt-7 mb-7'>
+        <p className='mt-7 mb-7'>
           人生で新たに経験したことや、些細なものから壮大な思い出までとりあえず残しておくための個人ブログです。
-        </h3>
+        </p>
         <p>
           サイトデザインもコンテンツも、おいおいアップデートしていきますので暖かく見守っていてくださいませ。
         </p>
 
         <div className='mt-9'>
-          <h2 className='font-bold text-2xl mb-8'>Recent Blog Posts</h2>
+          <h2 className='mb-8'>Recent Posts</h2>
+          <Link className='font-semibold text-xl underline' href={`/blogs`}>
+            See All Blogs
+          </Link>
           <ul>
-            {postsData.map(({ id, blog, publishedAt }) => (
-              <li className={styles.blogslist} key={id}>
-                <Link
-                  className={`bg-slate-100 block p-4 mt-3 mb-4 rounded-lg hover:bg-slate-100/50 hover:shadow-slate-300 hover:shadow-lg duration-100 ${styles.listItem}`}
-                  href={`/posts/${id}`}>
-                  <p className='font-semibold mb-4'>{blog.title}</p>
-                  <p>
-                    投稿日：
-                    <Date dateString={publishedAt} />
-                  </p>
-                </Link>
-              </li>
-            ))}
+            {blogPostsData.map(({ id, blog, updatedAt }, i) =>
+              i < 4 ? (
+                <li className={styles.blogslist} key={id}>
+                  <Link
+                    className={`block p-4 mt-3 mb-4 ${styles.listItem}`}
+                    href={`/blogs/${id}`}>
+                    <h4 className='text-lg font-semibold mb-4'>{blog.title}</h4>
+                    <p>
+                      Updated at: <Date dateString={updatedAt} />
+                    </p>
+                    <p>Category: {blog.category}</p>
+                  </Link>
+                </li>
+              ) : null
+            )}
+          </ul>
+        </div>
+        <div className='navigation mt-16 mb-8'>
+          <h2 className='font-bold text-2xl mb-8'>Recent Photos</h2>
+          <Link className='font-semibold text-xl underline' href={`/photos`}>
+            See All Photos
+          </Link>
+          <ul className='w-full flex flex-wrap gap-2 mt-12 justify-between'>
+            {photoPostsData[0].imagesDisplay.map(
+              ({ title, itemId, image, category }, i) =>
+                i < 6 ? (
+                  <li className='' key={title}>
+                    <Link
+                      className='relative inline-block w-32 h-32'
+                      href={`/photos/${category}/${itemId}`}>
+                      <Image
+                        className='object-cover rounded-md hover:opacity-80 duration-300'
+                        src={image.url}
+                        alt={`${title} の画像`}
+                        fill
+                      />
+                    </Link>
+                  </li>
+                ) : null
+            )}
           </ul>
         </div>
       </main>
@@ -64,11 +92,14 @@ export default function Home({ postsData }: { postsData: PostData[] }) {
   );
 }
 export const getStaticProps: GetStaticProps = async () => {
-  const data = await client.get({ endpoint: "blogs" });
-  const postsData = data.contents;
+  const blog = await client.get({ endpoint: "blog" });
+  const blogPostsData = blog.contents;
+  const photo = await client.get({ endpoint: "photos" });
+  const photoPostsData = photo.contents;
   return {
     props: {
-      postsData,
+      blogPostsData,
+      photoPostsData,
     },
   };
 };

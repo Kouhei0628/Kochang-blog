@@ -1,0 +1,14 @@
+.footer {
+    background-color: var(--fontC);
+    color: var(--bodyBg);
+    padding: 30px;
+    ul {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+        li {
+            width: 50%;
+            font-size: 10px;
+        }
+    }
+}
