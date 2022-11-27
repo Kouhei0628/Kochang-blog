@@ -23,7 +23,13 @@ export default function Home({
           name='description'
           content='This is where I write about my day to day experiences.'
         />
-        <link rel='icon' href='/favicon.ico' />
+        <link
+          rel='icon'
+          href={
+            photoPostsData[0].imagesUi.filter(IU => IU.use[0] === "favicon")[0]
+              .image.url
+          }
+        />
       </Head>
 
       <main className=''>
