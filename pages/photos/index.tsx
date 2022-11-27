@@ -17,7 +17,7 @@ export default function Photos({ postsData }: { postsData: PhotoPostData[] }) {
         <title>Photo Library</title>
       </Head>
       <div>{router.query.id}</div>
-      <h1 className='text-5xl font-extrabold'>フォトライブラリ</h1>
+      <h1 className='text-5xl font-extrabold'>Photo Library</h1>
       <h3 className='mt-12 text-xl font-light'>カテゴリ別に見る</h3>
       <ul className='flex mt-8 gap-5 flex-wrap justify-start'>
         {categories.map(({ name }) => (

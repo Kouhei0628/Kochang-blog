@@ -1,4 +1,5 @@
 import { GetStaticProps } from "next";
+import Head from "next/head";
 import Link from "next/link";
 import BackTo from "../../components/BackTo";
 import Date from "../../components/Date";
@@ -9,7 +10,10 @@ import { BlogPostData } from "../../types/postTypes";
 export default function Home({ postsData }: { postsData: BlogPostData[] }) {
   return (
     <main className=''>
-      <h1 className='font-extrabold text-5xl'>ブログ</h1>
+      <Head>
+        <title>Blogs</title>
+      </Head>
+      <h1 className='font-extrabold text-5xl'>Blogs</h1>
       <ul>
         {postsData.map(({ id, blog, updatedAt }) => (
           <li className={styles.blogslist} key={id}>

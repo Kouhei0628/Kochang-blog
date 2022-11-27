@@ -20,6 +20,7 @@ export default function Post({ photoData }: { photoData: PhotoPostData[] }) {
       </Head>
       <div>
         <Image
+          priority
           src={image.url}
           alt={title}
           width={image.width}
