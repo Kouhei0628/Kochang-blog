@@ -1,4 +1,4 @@
-import { GetStaticProps } from "next";
+import { GetServerSideProps } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
@@ -97,7 +97,7 @@ export default function Home({
     </div>
   );
 }
-export const getStaticProps: GetStaticProps = async () => {
+export const getServerSideProps: GetServerSideProps = async () => {
   const blog = await client.get({ endpoint: "blog" });
   const blogPostsData = blog.contents;
   const photo = await client.get({ endpoint: "photos" });

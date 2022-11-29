@@ -1,4 +1,4 @@
-import { GetStaticPaths } from "next";
+import { GetServerSideProps } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
@@ -54,19 +54,8 @@ export default function Photos({
   );
 }
 
-export const getStaticProps = async () => {
+export const getServerSideProps: GetServerSideProps = async () => {
   const data = await client.get({ endpoint: "photos" });
   const photosData = data.contents;
   return { props: { photosData } };
-};
-
-export const getStaticPaths: GetStaticPaths = async () => {
-  const data = await client.get({ endpoint: "photos" });
-  const paths = data.contents[0].categories.map(
-    ({ name }: { name: string }) => `/photos/${name.toLowerCase()}`
-  );
-  return {
-    paths,
-    fallback: false,
-  };
 };
