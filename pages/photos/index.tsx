@@ -4,15 +4,22 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import BackHome from "../../components/BackTo";
+import Layout from "../../components/Layout";
 import { client } from "../../libs/client";
 import styles from "../../styles/Photos.module.scss";
 import { PhotoPostData } from "../../types/postTypes";
 
-export default function Photos({ postsData }: { postsData: PhotoPostData[] }) {
-  const { imagesDisplay, categories } = postsData[0];
+export default function Photos({
+  blogsData,
+  photosData,
+}: {
+  blogsData: PhotoPostData[];
+  photosData: PhotoPostData[];
+}) {
+  const { imagesDisplay, categories } = blogsData[0];
   const router = useRouter();
   return (
-    <main className=''>
+    <Layout postsData={photosData}>
       <Head>
         <title>Photo Library</title>
       </Head>
@@ -54,12 +61,14 @@ export default function Photos({ postsData }: { postsData: PhotoPostData[] }) {
         ))}
       </ul>
       <BackHome to={`/`} text={"ホーム"} />
-    </main>
+    </Layout>
   );
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const data = await client.get({ endpoint: "photos" });
-  const postsData = data.contents;
-  return { props: { postsData } };
+  const blogsData = data.contents;
+  const data2 = await client.get({ endpoint: "photos" });
+  const photosData = data2.contents;
+  return { props: { blogsData, photosData } };
 };

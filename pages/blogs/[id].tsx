@@ -4,6 +4,7 @@ import Head from "next/head";
 import Image from "next/image";
 import BackTo from "../../components/BackTo";
 import Date from "../../components/Date";
+import Layout from "../../components/Layout";
 import { client } from "../../libs/client";
 import styles from "../../styles/Post.module.scss";
 import { BlogPostData, PhotoPostData } from "../../types/postTypes";
@@ -28,16 +29,9 @@ export default function Post({
 }) {
   const { title, mainvisual, category, body } = blogData.blog;
   return (
-    <main className=''>
+    <Layout postsData={photosData}>
       <Head>
         <title>{title}</title>
-        <link
-          rel='icon'
-          href={
-            photosData[0].imagesUi.filter(IU => IU.use[0] === "favicon")[0]
-              .image.url
-          }
-        />
       </Head>
       <Image
         src={`${mainvisual.url}`}
@@ -62,7 +56,7 @@ export default function Post({
         className={styles.body}
         dangerouslySetInnerHTML={{ __html: `${body}` }}></div>
       {blogData && <BackTo to={`/blogs`} text={`ブログ一覧`} />}
-    </main>
+    </Layout>
   );
 }
 

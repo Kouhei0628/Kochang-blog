@@ -3,6 +3,7 @@ import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import Date from "../../../components/Date";
+import Layout from "../../../components/Layout";
 import { client } from "../../../libs/client";
 import { PhotoPostData } from "../../../types/postTypes";
 
@@ -14,7 +15,7 @@ export default function Post({ photoData }: { photoData: PhotoPostData[] }) {
     .map(ID => ID);
   const { image, title, upload } = data[0];
   return (
-    <main>
+    <Layout postsData={photoData}>
       <Head>
         <title>{title}</title>
       </Head>
@@ -32,7 +33,7 @@ export default function Post({ photoData }: { photoData: PhotoPostData[] }) {
           <Date dateString={upload} />
         </p>
       </div>
-    </main>
+    </Layout>
   );
 }
 
