@@ -1,4 +1,4 @@
-import { GetStaticProps } from "next";
+import { GetServerSideProps } from "next";
 import Head from "next/head";
 import Link from "next/link";
 import BackTo from "../../components/BackTo";
@@ -34,7 +34,7 @@ export default function Home({ postsData }: { postsData: BlogPostData[] }) {
   );
 }
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getServerSideProps: GetServerSideProps = async () => {
   const data = await client.get({ endpoint: "blog" });
   const postsData = data.contents;
   return { props: { postsData } };
