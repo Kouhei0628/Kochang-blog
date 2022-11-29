@@ -17,10 +17,9 @@ export default function Photos({
   const { category } = useRouter().query;
   const { imagesDisplay } = photosData[0];
   return (
-    <main className='mb-10'>
+    <>
       <Head>
         <title>{`Photos / ${upperFirstLetter(category as string)}`}</title>
-        <meta name='viewport' content='initial-scale=1.0, width=device-width' />
       </Head>
       <h1 className='font-extrabold text-4xl'>
         "{upperFirstLetter(category as string)}" の画像一覧
@@ -50,7 +49,7 @@ export default function Photos({
         </div>
       )}
       <BackTo to={`/photos`} text={`フォトライブラリ`} />
-    </main>
+    </>
   );
 }
 

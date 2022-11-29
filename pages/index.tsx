@@ -15,21 +15,9 @@ export default function Home({
   photoPostsData: PhotoPostData[];
 }) {
   return (
-    <div>
+    <>
       <Head>
         <title>Kochang Exploration</title>
-        <meta name='viewport' content='initial-scale=1.0, width=device-width' />
-        <meta
-          name='description'
-          content='This is where I write about my day to day experiences.'
-        />
-        <link
-          rel='icon'
-          href={
-            photoPostsData[0].imagesUi.filter(IU => IU.use[0] === "favicon")[0]
-              .image.url
-          }
-        />
       </Head>
 
       <main className=''>
@@ -94,7 +82,7 @@ export default function Home({
       </main>
 
       <footer></footer>
-    </div>
+    </>
   );
 }
 export const getServerSideProps: GetServerSideProps = async () => {

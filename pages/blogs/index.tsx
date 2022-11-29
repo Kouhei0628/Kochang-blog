@@ -5,17 +5,23 @@ import BackTo from "../../components/BackTo";
 import Date from "../../components/Date";
 import { client } from "../../libs/client";
 import styles from "../../styles/BlogsHome.module.scss";
-import { BlogPostData } from "../../types/postTypes";
+import { BlogPostData, PhotoPostData } from "../../types/postTypes";
 
-export default function Home({ postsData }: { postsData: BlogPostData[] }) {
+export default function Home({
+  blogsData,
+  photosData,
+}: {
+  blogsData: BlogPostData[];
+  photosData: PhotoPostData[];
+}) {
   return (
-    <main className=''>
+    <>
       <Head>
         <title>Blogs</title>
       </Head>
       <h1 className='font-extrabold text-5xl'>Blogs</h1>
       <ul>
-        {postsData.map(({ id, blog, updatedAt }) => (
+        {blogsData.map(({ id, blog, updatedAt }) => (
           <li className={styles.blogslist} key={id}>
             <Link
               className={`block p-4 mt-3 mb-4 ${styles.listItem}`}
@@ -30,12 +36,14 @@ export default function Home({ postsData }: { postsData: BlogPostData[] }) {
         ))}
       </ul>
       <BackTo to={`/`} text={`ホーム`} />
-    </main>
+    </>
   );
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const data = await client.get({ endpoint: "blog" });
-  const postsData = data.contents;
-  return { props: { postsData } };
+  const blogsData = data.contents;
+  const data2 = await client.get({ endpoint: "photos" });
+  const photosData = data2.contents;
+  return { props: { blogsData, photosData } };
 };

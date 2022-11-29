@@ -14,7 +14,7 @@ export default function Post({ photoData }: { photoData: PhotoPostData[] }) {
     .map(ID => ID);
   const { image, title, upload } = data[0];
   return (
-    <main>
+    <>
       <Head>
         <title>{title}</title>
       </Head>
@@ -32,7 +32,7 @@ export default function Post({ photoData }: { photoData: PhotoPostData[] }) {
           <Date dateString={upload} />
         </p>
       </div>
-    </main>
+    </>
   );
 }
 

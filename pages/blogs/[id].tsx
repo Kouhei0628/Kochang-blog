@@ -28,16 +28,9 @@ export default function Post({
 }) {
   const { title, mainvisual, category, body } = blogData.blog;
   return (
-    <main className=''>
+    <>
       <Head>
         <title>{title}</title>
-        <link
-          rel='icon'
-          href={
-            photosData[0].imagesUi.filter(IU => IU.use[0] === "favicon")[0]
-              .image.url
-          }
-        />
       </Head>
       <Image
         src={`${mainvisual.url}`}
@@ -62,7 +55,7 @@ export default function Post({
         className={styles.body}
         dangerouslySetInnerHTML={{ __html: `${body}` }}></div>
       {blogData && <BackTo to={`/blogs`} text={`ブログ一覧`} />}
-    </main>
+    </>
   );
 }
 
