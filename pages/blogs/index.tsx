@@ -3,7 +3,6 @@ import Head from "next/head";
 import Link from "next/link";
 import BackTo from "../../components/BackTo";
 import Date from "../../components/Date";
-import Layout from "../../components/Layout";
 import { client } from "../../libs/client";
 import styles from "../../styles/BlogsHome.module.scss";
 import { BlogPostData, PhotoPostData } from "../../types/postTypes";
@@ -16,7 +15,7 @@ export default function Home({
   photosData: PhotoPostData[];
 }) {
   return (
-    <Layout postsData={photosData}>
+    <>
       <Head>
         <title>Blogs</title>
       </Head>
@@ -37,7 +36,7 @@ export default function Home({
         ))}
       </ul>
       <BackTo to={`/`} text={`ホーム`} />
-    </Layout>
+    </>
   );
 }
 

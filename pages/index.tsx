@@ -3,7 +3,6 @@ import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import Date from "../components/Date";
-import Layout from "../components/Layout";
 import { client } from "../libs/client";
 import styles from "../styles/Home.module.scss";
 import { BlogPostData, PhotoPostData } from "../types/postTypes";
@@ -16,7 +15,7 @@ export default function Home({
   photoPostsData: PhotoPostData[];
 }) {
   return (
-    <Layout postsData={photoPostsData}>
+    <>
       <Head>
         <title>Kochang Exploration</title>
       </Head>
@@ -83,7 +82,7 @@ export default function Home({
       </main>
 
       <footer></footer>
-    </Layout>
+    </>
   );
 }
 export const getServerSideProps: GetServerSideProps = async () => {

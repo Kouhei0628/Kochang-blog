@@ -4,22 +4,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import BackHome from "../../components/BackTo";
-import Layout from "../../components/Layout";
 import { client } from "../../libs/client";
 import styles from "../../styles/Photos.module.scss";
 import { PhotoPostData } from "../../types/postTypes";
 
-export default function Photos({
-  blogsData,
-  photosData,
-}: {
-  blogsData: PhotoPostData[];
-  photosData: PhotoPostData[];
-}) {
+export default function Photos({ blogsData }: { blogsData: PhotoPostData[] }) {
   const { imagesDisplay, categories } = blogsData[0];
   const router = useRouter();
   return (
-    <Layout postsData={photosData}>
+    <>
       <Head>
         <title>Photo Library</title>
       </Head>
@@ -61,7 +54,7 @@ export default function Photos({
         ))}
       </ul>
       <BackHome to={`/`} text={"ホーム"} />
-    </Layout>
+    </>
   );
 }
 

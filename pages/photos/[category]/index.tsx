@@ -4,7 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import BackTo from "../../../components/BackTo";
-import Layout from "../../../components/Layout";
 import { client } from "../../../libs/client";
 import { upperFirstLetter } from "../../../libs/handleString";
 import styles from "../../../styles/CategoryPosts.module.scss";
@@ -18,7 +17,7 @@ export default function Photos({
   const { category } = useRouter().query;
   const { imagesDisplay } = photosData[0];
   return (
-    <Layout postsData={photosData}>
+    <>
       <Head>
         <title>{`Photos / ${upperFirstLetter(category as string)}`}</title>
       </Head>
@@ -50,7 +49,7 @@ export default function Photos({
         </div>
       )}
       <BackTo to={`/photos`} text={`フォトライブラリ`} />
-    </Layout>
+    </>
   );
 }
 
