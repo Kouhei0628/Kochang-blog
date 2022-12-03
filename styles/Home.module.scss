@@ -14,3 +14,12 @@
         color: var(--bodyBg);
     }
 }
+
+.blogslist {
+    position: relative;
+    transition: all .3s;
+}
+
+.active {
+    background-color: rgba(#fff, 0.4);
+}

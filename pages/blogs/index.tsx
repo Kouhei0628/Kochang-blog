@@ -1,8 +1,10 @@
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import Link from "next/link";
+import { useState } from "react";
 import BackTo from "../../components/BackTo";
 import Date from "../../components/Date";
+import Loading from "../../components/Loading";
 import { client } from "../../libs/client";
 import styles from "../../styles/BlogsHome.module.scss";
 import { BlogPostData, PhotoPostData } from "../../types/postTypes";
@@ -14,6 +16,7 @@ export default function Home({
   blogsData: BlogPostData[];
   photosData: PhotoPostData[];
 }) {
+  const [listNumber, setListNumber] = useState<number>();
   return (
     <>
       <Head>
@@ -21,9 +24,11 @@ export default function Home({
       </Head>
       <h1 className='font-extrabold text-5xl'>Blogs</h1>
       <ul>
-        {blogsData.map(({ id, blog, updatedAt }) => (
-          <li className={styles.blogslist} key={id}>
+        {blogsData.map(({ id, blog, updatedAt }, i) => (
+          <li className={`${styles.blogslist} relative`} key={id}>
+            <Loading active={listNumber === i} />
             <Link
+              onClick={() => setListNumber(i)}
               className={`block p-4 mt-3 mb-4 ${styles.listItem}`}
               href={`/blogs/${id}`}>
               <h4 className='text-lg font-semibold mb-4'>{blog.title}</h4>

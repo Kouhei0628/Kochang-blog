@@ -32,13 +32,16 @@ export default function Post({
       <Head>
         <title>{title}</title>
       </Head>
-      <Image
-        src={`${mainvisual.url}`}
-        alt={`${title}のメインビジュアル`}
-        width={mainvisual.width}
-        height={mainvisual.height}
-        priority
-      />
+      <div className={`${styles.headerImg}`}>
+        <Image
+          className=' object-cover object-center'
+          src={`${mainvisual.url}`}
+          alt={`${title}のメインビジュアル`}
+          fill
+          priority
+        />
+      </div>
+
       <h1 className='font-extrabold text-4xl pt-5 pb-7'>{title}</h1>
       <div className={styles.date}>
         <p className='text-slate-400'>

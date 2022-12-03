@@ -2,7 +2,9 @@ import { GetServerSideProps } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 import Date from "../components/Date";
+import Loading from "../components/Loading";
 import { client } from "../libs/client";
 import styles from "../styles/Home.module.scss";
 import { BlogPostData, PhotoPostData } from "../types/postTypes";
@@ -14,6 +16,8 @@ export default function Home({
   blogPostsData: BlogPostData[];
   photoPostsData: PhotoPostData[];
 }) {
+  const [listNumber, setListNumber] = useState<number>();
+  const [listNumber2, setListNumber2] = useState<number>();
   return (
     <>
       <Head>
@@ -39,10 +43,16 @@ export default function Home({
           <ul>
             {blogPostsData.map(({ id, blog, updatedAt }, i) =>
               i < 4 ? (
-                <li className={styles.blogslist} key={id}>
+                <li
+                  className={`${styles.blogslist} ${
+                    listNumber === i ? styles.active : ""
+                  }`}
+                  key={id}>
+                  <Loading active={listNumber === i} />
                   <Link
                     className={`block p-4 mt-3 mb-4 ${styles.listItem}`}
-                    href={`/blogs/${id}`}>
+                    href={`/blogs/${id}`}
+                    onClick={() => setListNumber(i)}>
                     <h4 className='text-lg font-semibold mb-4'>{blog.title}</h4>
                     <p>
                       Updated at: <Date dateString={updatedAt} />
@@ -63,8 +73,10 @@ export default function Home({
             {photoPostsData[0].imagesDisplay.map(
               ({ title, itemId, image, category }, i) =>
                 i < 6 ? (
-                  <li className='' key={title}>
+                  <li className={`relative`} key={title}>
+                    <Loading active={listNumber2 === i} />
                     <Link
+                      onClick={() => setListNumber2(i)}
                       className='relative inline-block w-32 h-32'
                       href={`/photos/${category}/${itemId}`}>
                       <Image
