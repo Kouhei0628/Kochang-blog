@@ -3,7 +3,9 @@ import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useState } from "react";
 import BackTo from "../../../components/BackTo";
+import Loading from "../../../components/Loading";
 import { client } from "../../../libs/client";
 import { upperFirstLetter } from "../../../libs/handleString";
 import styles from "../../../styles/CategoryPosts.module.scss";
@@ -16,6 +18,7 @@ export default function Photos({
 }) {
   const { category } = useRouter().query;
   const { imagesDisplay } = photosData[0];
+  const [listNumber, setListNumber] = useState<number>();
   return (
     <>
       <Head>
@@ -28,9 +31,11 @@ export default function Photos({
         <ul className='mt-10 flex gap-4 flex-wrap justify-start'>
           {imagesDisplay
             .filter(iD => iD.category[0] === category)
-            .map(({ image, itemId }) => (
+            .map(({ image, itemId }, i) => (
               <li key={itemId} className={`relative ${styles.imgListItem}`}>
+                <Loading active={listNumber === i} />
                 <Link
+                  onClick={() => setListNumber(i)}
                   className='inline-block'
                   href={`/photos/${category}/${itemId}`}>
                   <Image
